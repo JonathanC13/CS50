@@ -1,0 +1,217 @@
+##** Abstract data types
+
+##** Queues: First In First Out (FIFO)
+Essentially a line in the human world. Adding to the end and the one in the first is served first.
+
+* enqueue: add to the end of the queue.
+* dequeue: serve the first in the queue.
+
+##** Stack: Last In First Out (LIFO)
+Like a stack of trays. Adding to the top and the top one is served first.
+
+* push: add on to the top of the stack.
+* pop: removing from the top of the stack.
+
+* ex of implementing a stack with array.
+const int CAPACITY = 50;
+
+typedef struct
+{
+	person people[CAPACITY];	// allocate the max size of the stack.
+	int size;			// current size of the stack.
+}
+stack;
+	// With an array our 'push' can be adding the elem to the end of the array and 'pop' will remove the last element of the array.
+	// A disadvantage of using an array to implement a stack is that the array is of finite size and allocating a too large of a CAPACITY is wasteful if not
+	//	using all of it. 
+	// You could use a dynamic array to continuously malloc an increased size for the array if greater than the CAPACITY and then copy
+	//	the values to the new memory locations. Negative performance affect due to copying elem by elem.
+	//	** Can use 'realloc'. realloc(ogList, newSize); // this function also copies the original values to the new memory addresses.
+	// ** The best solution is the use a 'Linked List.' A node that contains 2 compentents, the value and a pointer to the next node's memory address.
+
+##** 
+* struct: custom data structure
+* dot operator '.': allows access to attributes of the struct. e.g. person.name;
+* star operator '*': deference to get the value at a memory address.
+* arrow '->': combination of '*' and '.' where it goes to the memory location of the struct and then access an attribute.
+
+##** Linked Lists
+A linked list contains nodes that are linked together due to that the two components of a node are the node's value and a pointer to the next node. 
+If a 'non-singly Linked List,' the last node's 'next' address is NULL to indicate the end of the linked list.
+
+Sacrifice number of algorithms that can be applied to a linked list for searching that require indexing (contiguous memory locations) like
+binary search. In the linked list since it is linearly connected, you must follow the pointers to each node.
+
+Advantage is that the memory locations for each node doesn't have to be contiguous and have the need to reallocate memory to big enough spaces and copying the 
+elems to the new locations. Appending a node to the end is just assigning the address to the last node's node pointer.
+
+// need 'struct node' since using before defined
+typedef struct node
+{
+	int value;
+	struct node *next;
+}
+node;
+
+// ./prog 1 2 3
+// argc is 4
+// argv[0] is './prog'
+// argv[1] is '1'
+void main(int argc, char *argv[])
+{
+	node *list = NULL;	// keep track of the head of the Linked List
+
+	// take command-line argument values and create a Linked List.
+	for(int i = argc - 1; i > 1; i--)
+	{
+		node *n = malloc(sizeof(node));
+		if (n == NULL)
+		{
+			// note, a complete program would need to free any nodes that were previously created. Like func freeList(...);
+			return 1;
+		}
+
+		n->value = atoi(argv[i]);	// go to the memory location of the struct node and then access the attribute. Same as (*n).value.
+		n->next = list;	// assign next of new node to the current head.
+		
+		list = n;	// assign head to new front node.
+	}
+
+	node *iter = list;
+
+	while(iter != NULL)
+	{
+		printf("%i\n", iter->value);
+		iter = iter->next;	// get the next address from the node's next address.
+	}
+
+	// Using a for loop to iterate
+	for (node *it2 = list; it2->next != NULL; it2 = it2->next)
+	{
+		printf("%i\n", it2->value);
+	}
+
+	// Have to free all nodes individually
+	iter = list;
+	while(iter != NULL)
+	{
+		iter = iter->next;	// save the next node address
+		free(list);	// free the current node
+		list = iter;	// assign list also to the next node address
+	}
+}
+
+// Easier to prepend values to the front of the Linked List due to the fact there is already a pointer to the head of it and you did not have to trace all
+	the way to the end to append. With this efficiency, we can treat this as a stack, push and popping from the front.
+
+// operation Time complexity of a Singly Linked List with one pointer for header.
+	Search: O(n)	// due to have to linearly traverse.
+	Insertion (Prepend/Append): O(1)	// Append is O(1) if you keep a pointer for the tail
+	Insertion (elsewhere): O(n)	// Need to traverse.
+	Insertion (sorted): O(n)	// Need to keep traversing
+	
+
+##** Trees
+#* Binary search trees (BST).
+	Parent nodes and most 2 child branches where it is sorted so that nodes with values less than a node are the left child and greater on the right.
+	This enables binary search with the top pointer to the middle value (root). 
+	Requires more memory than a simple Singly Linked List.
+	Requires more time to keep it sorted for each insertion.
+
+1 2 3 4 5 6 7
+
+   4
+ 2   6
+1 3 5 7
+
+// A node struct would contain 1 values and 2 struct node pointers for left and right children nodes.
+
+typedef struct node
+{
+	int value;
+	struct *node left;
+	struct *node right;
+}
+node;
+
+// return true if value exists in the binary search tree.
+bool search(node *root, int value)
+{
+	if (root == NULL)
+	{
+		// base case 1
+		return false;
+	}
+	else if (root->value == value)
+	{
+		// base case 2
+		return true;
+	}
+	else if (root->value > value)
+	{
+		// go search the left
+		return search(root->left);
+	}
+	else if (root->value < value)
+	{
+		// go search the right
+		return search(root->right);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+##** Dictionaries
+	Key and Value pairs. Keys are hashed so that searching for a key and in turn its value becomes O(1) no matter how large the data structure.
+
+#* Hashing
+	Taking an input from a larger domain and reducing it into smaller 'buckets'
+#* Hash function.
+	Assigns a number to every input to determine which 'bucket'/array index it is to be stored/accessed, then it is inserted into the linked list at that
+	index (prepend/append/somewhere inbetween. Prepend is best performance since don't need to iterate to location of insertion).
+
+#* Hash tables. An array of linked lists
+	Time complexity:	O(n).	// for a hash where there are a lot of collisions for an index of the array. Minimum number of buckets used.
+				O(n/k) but really still considered O(n). // If you use more memory to reduce collisions. More buckets.
+	Uses Arrays and Linked Lists to combine the advantages to achieve faster performance in searching and sorting than an array or Linked List alone.
+
+// each array index contains a pointer to a linked list. 
+// Ex. searching a Contact name; Hashed to find in the array the first letter in O(1) time of the Contact name, then needs to traverse the linked list if needed.
+	Hashed e.g. index 0 is A so get the first char of the name 'Andy' and the 'A' - 65 = 0. Go to that array index. This allows O(1) due to a arithmetic calc
+	to directly get the location.
+//	*On average this is faster than say an array with purely a binary search.
+[arr[0]] -> [|] -> [|]
+[arr[1]] -> [|] -> [|]
+[arr[2]] -> [|] -> [|]
+
+// Ex of using more memory but even faster searching for Contact names is that you your array is storing the first 2 letters of Contact's names. This
+	prevents a since letter's linked list to grow too long (also known as more 'collision'). An array index is pointing to a linked list with more than one node.
+	This can keep being expanded with more letters with use of more memory. Cannot reduce by removing unused indexes like 'Zz' because then your arithmetic calc
+		used to have O(1) initial search doesn't work since the indexes are not consistent.
+
+
+typedef struct node
+{
+	char *name;
+	struct node *next;
+}
+
+node *table[26];	// array of 26 node pointers
+
+
+##** Tries
+* It is a tree where each of its nodes is an array.
+* O(1) search and insertion due to no matter how many links there are, searching for a specific item is a constant value. e.g. length of a name is 5, then it will
+	take 5 steps.
+* Disadvantage is it needs a lot of memory.
+
+typedef struct node
+{
+	char *number;
+	struct node *childen[26];
+}
+node;
+
+node *trie = NULL;	// head

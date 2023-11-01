@@ -1,0 +1,13 @@
+{% extends "layoutEdit.html" %}
+
+{% block EditBd %}
+    {% for bd in birthdayInfo %}
+        <form action="/finishEdit" method="post">
+            <input name="id" type="hidden" value="{{ bd.id }}">
+            <input name="name" type="text" autocomplete="off" autofocus placeholder="Name" value="{{ bd.name }}">
+            <input name="month" type="number" min="1" max="12" autocomplete="off" placeholder="Month" value="{{ bd.month }}">
+            <input name="day" type="number" min="1" max="31" autocomplete="off" placeholder="Day" value="{{ bd.day }}">
+            <button type="submit">Edit Birthday</button>
+        </form>
+    {% endfor %}
+{% endblock %}

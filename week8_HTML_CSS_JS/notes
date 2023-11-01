@@ -1,0 +1,485 @@
+##** Internet
+
+##** routers
+Determine route that the packet travels.
+
+##** TCP / IP
+IP: Internet protocol, how to handle packets, each device on the internet has unique address (IP address)
+    255.255.255.255 /port
+TCP: Transmission control protocol: provides reliable (req / ack), ordered, error checked (checksum) delivery of packets 
+    between hosts via an IP network.
+        80: HTTP
+        443: HTTPS
+
+##** DNS
+DNS: Domain name system. 
+    Convert a URL to the underlying IP address and vice versa.
+    A hash table of some sort / a database
+
+##** HTTP
+HTTP: Hyper text transfer protocol.
+    Service that runs ontop of the internet. Application level protocol.
+
+    Accessing files on the server
+    https://www.example.com/path
+    https://www.example.com/file.html
+    https://www.example.com/folder/file.html
+
+    Protocol when accessing content at the address = https
+    fully qualified domain name = www.example.com
+    host name = www
+    domain name = example.com
+    TLD (top level domain) = .com
+
+    2 letter TLD usually is a country owned
+
+    -- 
+    GET = e.g. get info
+    POST = e.g. upload
+
+    -- HTTPS message ex
+    GET / HTTPS/1.1             # HTTP methods
+    Host: www.example.com       # server being accessed
+    ...
+
+##** Inspect
+See Elements, Console, Network, and etc.
+
+Focus on Network to see HTTP requests and acknowledgements.
+
+##** curl
+curl: Connect url
+    Pretend to be a browser
+
+    $ curl -I https://www.harvard.edu/
+
+##** search
+    --
+    GET /search?q=cat HTTP/1.1
+    Host: www.google.com
+    --
+
+##** HTML: Hyper text markup language
+    tags: element component
+    attrbutes: special words used inside a tage to control an element's behaviour
+
+    -- cs50 web server
+    $ http-server hello.html
+
+##** hello.html
+<!DOCTYPE html>         # specify using latest version of html
+
+<html lang = "en">      # open html tag. 'lang' is an attribute
+    <head>
+    </head>
+    <body>
+    </body>
+</html>                 # close html tag
+
+##** Document Object Model
+Representing the html hierarchy in a tree
+e.g.
+            (document)
+                |
+                [html]
+                /\
+               /  \
+          [head]   [body]
+
+##** Paragraphs
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>
+            para1.0<br><br>para1.1
+        </p>
+        <p>
+            para2
+        </p>
+    </body>
+</html>
+
+##** Headings
+<h1>
+    heading tier 1
+</h1>
+<h2>
+    heading tier 2
+</h2>
+...
+<h6></h6>
+
+##** List
+<ul>            # unordered list
+    <li>
+        foo
+    </li>
+    <li>
+        bar
+    </li>
+</ul>
+
+<ol>            # ordered list, will use numbers instead of bullets.
+</ol>
+
+##** table
+<table>             # table container
+    <tr>            # table row
+        <td>        # table data, Column
+            1
+        </td>
+        <td>        
+            2
+        </td>
+        <td>       
+            3
+        </td>
+    </tr>
+    <tr>            
+        <td>        
+            4
+        </td>
+        <td>        
+            5
+        </td>
+        <td>       
+            6
+        </td>
+    </tr>
+</table>
+
+##** Image
+<img alt = "Harvard University image" src = "path/img.png">          # can use URL or local
+
+##** Video
+<video autoplay loop muted width="1280px">                  # note autoplay may not work if not muted.
+    <source src = "halloween.mp4" type = "video/mp4">
+</video>
+
+##** Link
+# anchor tag
+# href = hyper reference
+<a href="https://www.harvard.edu" >Harvard</a>
+
+##** Meta
+# For a responsive webpage include <meta>
+
+# 1st use: resizing and being proportional of different device screens
+#   viewport: display of the page
+#   initial-scale=1: starts with default sizing
+#   width: adjust for other size screens
+
+<meta name="viewport" content="initial-scale=1, width=device-width">
+
+# 2nd use: preview contents of the page when shared in applications that show a preview like discord, messenger, etc.
+<meta property="og:title" content="CS50">
+<meta property="og:description" content="Welcome to CS50">
+<meta property="og:image" content="cat.jpg">
+
+##** search.html
+<!DOCTYPE html>         # specify using latest version of html
+
+<html lang = "en">      # open html tag. 'lang' is an attribute
+    <head>
+        <title>search</title>
+    </head>
+    <body>
+        <form action="http://www.google.com/search" method="get">
+            <input autocomplete="off" autofocus name="q" type="search" placeholder="search term">
+            <input type="submit" value="google search"> // on submit, it will redirect to http://www.google.com/search?q=text
+        </form>
+    </body>
+</html>  
+
+##** inspect
+F12 developer tools
+Inspect the Elements is the HTML structure.
+
+Can change the webpage that is cached in our local memory.
+
+##** CSS
+# CSS: Cascading style sheet
+Key value pairs to set the 'properties' of elements
+
+techniques to select elements:
+    type selector
+    class selector
+    ID selector
+    attribute selector
+
+##** home.html
+# best practice is to seperate html and CSS files
+<!DOCTYPE html>        
+
+<html lang = "en">  
+    <!--1st way to include CSS other than inline CSS in html elements-->   
+    <style>         
+        body {  
+            //Type selector
+            text-align: center;
+        }
+
+        header {
+            font-size: large;
+        }
+
+        main {
+            font-size: medium;
+        }
+
+        footer {
+            font-size: small;
+        }
+
+        .centered {
+            // classes for class selector. Elements that use this class will be applied the properties.
+            text-align: center;
+        }
+
+        .large {
+            font-size: large;
+        }
+
+        .medium {
+            font-size: medium;
+        }
+
+        .small {
+            font-size: small;
+        }
+    </style>
+
+    <!--2nd way for css, link to a seperate file that contains the style-->
+    <link href="styles.css" rel="stylesheet">
+
+    <head>
+
+        <title>home</title>
+    </head>
+    <body class="centered">
+        
+        <!--<div style="font-size: large;">-->
+        <header>
+            John Harvard
+        </header>
+        <main>
+            Welcome to my home page.
+        </main>
+        <footer>
+            Copyright &#169;.                               
+        </footer>
+        
+    </body>
+</html> 
+
+-- style.css
+       
+body {  
+    //Type selector
+    text-align: center;
+}
+
+header {
+    font-size: large;
+}
+
+main {
+    font-size: medium;
+}
+
+footer {
+    font-size: small;
+}
+
+.centered {
+    // classes for class selector. Elements that use this class will be applied the properties.
+    text-align: center;
+}
+
+.large {
+    font-size: large;
+}
+
+.medium {
+    font-size: medium;
+}
+
+.small {
+    font-size: small;
+}
+
+--
+
+##** favorites.html
+
+<link href="bootstrap_framework.css_link" rel="stylesheet"> // framework
+
+<table class="table table-striped">
+    
+    <thead>
+        <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">language</th>
+            <th scope="col">problem</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>
+                10:00
+            </td>
+            <td>
+                C
+            </td>
+            <td>
+                Tidemen
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+
+##** JavaScript
+
+# Conditionals
+    if (x < y)
+    {
+
+    }
+    else if ()
+    {
+
+    }
+    else
+    {
+        
+    }
+
+# variables
+    let counter = 0     // local scope
+
+    counter ++, counter += 1, counter = counter + 1;
+
+# loops
+for (let i = 0; i < 3; i++)
+{
+
+}
+
+while (true)
+{
+
+}
+
+##** Greet.html
+# best practice, seperate JS into its own file.
+
+<!DOCTYPE html>         
+
+<html lang = "en">      
+    
+    /*
+    // 1. JS embedded in HTML
+    <script>
+        /*
+        function greet()
+        {
+            let name = document.querySelector("#name").value;   // get the value in the Element with id = "name"
+            alert("Hello, " + name);
+        }
+        */
+
+        // selecting element tag
+        // listen for event and callback function
+        // remember if eventlistener is defined before the element has loaded in html, then it does NOT work
+        // Unless use DOMContentLoaded, the html will raise this flag after loaded all elems and then JS can add listeners
+        document.addEventListener('DOMContentLoaded', function (){
+            document.querySelector('form').addEventListener('submit', function(event) {
+                let name = document.querySelector("#name").value;   // get the value in the Element with id = "name"
+                alert("Hello, " + name);
+                event.preventDefault(); // same as return false in inline ref to **1
+            });
+        });
+
+    </script>
+    */
+
+    // 2. JS in seperate file
+    <script src="hello.js"></script>
+    
+    <head>
+        hello, title
+    </head>
+    <body>
+        <!--<form onsubmit="greet(); return false;">-->    // return false; means do not submit the form to the server **1
+        <form>
+            <input id="name" autocomplete="off" autofocus placeholder="Name" type="text">
+            <button type="submit">Greet</button>
+        </form>
+    </body>
+    <p></p>
+</html>                 
+
+-- hello.js
+
+document.addEventListener('DOMContentLoaded', function (){
+    document.querySelector('form').addEventListener('submit', function(event) {
+        let name = document.querySelector("#name").value;   // get the value in the Element with id = "name"
+        alert("Hello, " + name);
+        event.preventDefault(); // same as return false in inline ref to **1
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function (){
+    let input = document.querySelector('input');
+    input.addEventListener('keyup', function(event) {
+        let msg = document.querySelector("p");   
+        if (input.value)
+        {
+            msg.HTML = `Hello, ${input.value}`; // Using ` and ${var} is like print(f'{var}') in C;
+        }
+        else
+        {
+            msg.HTML = "Hello, whoever you are.";
+        }
+        event.preventDefault(); // same as return false in inline ref to **1
+    });
+});
+
+
+--
+
+# js events that are listenable
+blur
+change
+click
+drag
+Focus
+keyup
+load
+mousedown
+mouseover
+mouseup
+submit
+touchmove
+unload
+...
+
+##** background
+body.style.backgroundColor = 'red';
+
+##** Interval
+window.setInterval(func, 500)   # at the set interval in ms, 500, call the func
+
+body.style.visibility == 'hidden'   / 'visible'
+
+##** Geolocation
+navigator.geolocation.getCurrentPosition(function(position){
+    document.write(position.coords.latitude + ", " + position.coords.longitude);
+});

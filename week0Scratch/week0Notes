@@ -1,0 +1,288 @@
+1`======` What I learned in this interval.
+
+Basic computer function
+
+Binary digit:
+	0 or 1
+	Can represent 0 as OFF and 1 as ON for the state of the transistors within devices.
+
+Byte: 8 bits
+	0000 0000
+
+2^8 = 256 max representations.
+
+To represent data in a device transistors are used to store the binary states and then the computer can interpret the binary sequences into machine code operations.
+
+
+2`=====`
+
+Base-2 = binary
+
+0   0   0   0      0   0   0   0
+128 64  32  16     8   4   2   1
+
+2^0 = 1
+2^1 = 2
+
+3 = 011
+15 = 1111
+
+Computers use bianry due to physical mechanical limitations as in using transistors for 2 states 0 and 1 for representations.
+
+
+To represent letters, mapping numbers to letters using ASCII.
+A standard agreed upon for conversion in different contexts.
+Since a number represents A, need to represent the numbers that were used. So, use another number to represent 0 to 9.
+ASCII limits to only English.
+2^8
+
+To represent more symbols, need to use more hardware to add bits. 
+UNICODE. Another mapping of numbers to letters/symbols.
+2^32
+
+Example: an emoji is saved as one combination of bits. If the user chose to change the colour of the emoji, that colour is also saved as a combination of bits. When this user send their emoji, it sends the binary representation of the default emoji followed by the binary representation of the colour, this causes the receivers system to apply the colour to the default emoji and displays it for the recipient.
+Instead of saving all the variants, save them seperately.
+Combined emoji are still seperate emojis in a specific format.
+
+3`=====`
+
+RGB, Red Green Blue
+A number representing how much of each colour should show. Combined into one colour.
+(255, 255, 255)
+
+Pixels compose images and each have an RGB value that is 3 bytes.
+
+
+Video is pixels changing RGB values over time OR can be interpreted as changing single images over time.
+
+24 FPS, frames per second
+Sequences of images.
+
+
+Music, bytes to store notes' properties.
+
+
+Algorithms all have it's time and space complexities.
+
+
+pseudocode: Write the outline of the process in plain language to break down the problem.
+ALWAYS have an ELSE / default.
+
+- functions
+	- arguments, return values
+- conditionals
+- Boolean expressions
+- loops
+- variables
+- etc.
+
+All code is binary and the computer will interpret it into machine code so that computer knows what to do with memory.
+
+4`=====`
+
+Scratch.mit.edu
+
+Characters exist on a 2D plane: X,Y.
+Mid is (0,0)
+Outer bounds in 180.
+
+Input -> algorith -> output
+Arguments -> function -> side effect/return value
+`hello world` -> 'say'algorithm -> displayed
+
+
+Minimize `smelly` code, don't rewrite same code but create reusable functions.
+
+Create abstractions (interfaces) to hide implementation and only show the user/calling code.
+
+
+
+1`=====`
+
+Sprites: it can respond to interactions and be controlled with `controls`
+	Costumes to change the image of the sprite.
+
+Polling is important to continuously check for `Sensing` events.
+
+
+2`=====`
+
+Finished the week 0 Scratch video.
+
+*Problem set 0
+https://cs50.harvard.edu/x/2023/psets/0/
+Scratch.mit.edu
+JCyberhand
+R0berA01?
+
+https://cs50.harvard.edu/x/2023/psets/0/scratch/
+
+See Below: Scratch Project
+
+*/
+
+3`=====`
+
+Scratch project brainstorm.
+
+4`=====`
+
+Scratch project requirements.
+
+
+Scratch Project `=====`
+
+Title: Reclaim this world!
+
+Setting: Vraks during the seige.
+Role: Captain of your assault squad.
+
+Your troops are streaming out of your trenches rand[2,5] at a time heading to the opposing trench on the other side horizonally.
+Time between waves is half the time it takes a troop with normal speed to the other end. 
+The enemy fires lasgun shots from 2 bunker positions and each calculate a different lead to your hit your troops.
+Interval of gun fire is a quarter of the time it takes a troop to reach the other side. Slightly faster rate of fire than input of soldiers. But the firing start time is rand[0, 25%] so that during the game the bunkers are firing at different times.
+Target of the bunkers is random to which sprites are on the field, if projectile intercepts the non-intended target it will still eliminate them.
+To avoid a troop from getting hit, you have a skill with your mouse on contact to `inspire` that one troop with a set speed boost, effectively not being in the intercept point of the fired projective from the enemy.
+Skill has a cooldown, which is also a 25% of the time to reach the other side. This gives the player a choice in which troop survive.
+
+Rand[10, 25] troops to send.
+rand a percent [20,30] of the troop supply that make it over for a successful mission.
+
+Beginning screen will have the General telling you how many troops you have and the percent to make it.
+
+Costumes: (troop represents by Kreig crest/gas mask)
+	1 Crest for normal movement
+	1 for Inspired crest
+	1 death sprite
+	
+Assignment requirements:
+
+Your project must use at least two sprites, at least one of which must not be a cat.
+	* Vraks soldier running.
+		3 costumes
+			1 whole
+			1 Inspired
+			1 dead (greyed crest with burnt hole in the middle)
+	* lasgun projectiles
+
+Your project must have at least three scripts total (i.e., not necessarily three per sprite).
+	* Start screen background image, music playing, and asks user to press 'space' to start.
+	* Shows battlefield and General tells you the objective and your power of the mouse and cooldown. 
+	* On start, troops streaming out of the trench running to the other side.
+	* Bunkers 1 to 2 firing. Scripts for each projectile coming out of the bunkers.
+	* Sense the mouse cursor to `inpire` the touched trooper.
+	* When troop gets to the other side, a progress bar fills. When filled, success screen else failure screen and press `space` to try again.
+
+Your project must use at least one conditional, at least one loop, and at least one variable.
+	* Loops:
+		Troops generation, projectiles, polling for `inspire`.
+	* Conditionals:
+		`Inspire`, success and failure of objective, if projectile touches any troop, when troop touches other trench,
+	* variables:
+		Number of troops left, variables to save initial rand values like total troops and goal for success, running speed, inspire speed, boolean to track if the cooldown of `inspire` is finished.
+
+Your project must use at least one custom block that you have made yourself (via Make a Block), which must take at least one input.
+	* Reusable block for projectile calculations and animation.
+	* Reusable block for troop streaming out of the trench and reaction to inspire.
+
+
+**
+Balancing report after trial runs.
+
+
+Notes when implementing Scratch project `=====`
+
+E.x. https://scratch.mit.edu/projects/326129433/editor/
+
+
+Get assets:
+	1. Death Korp Costumes
+		1. Crest
+		2. Crest Inspired (Air swirl behind to indicate going fast)
+		3. Crest Hit (Greyed out and bullet hole in the middle)
+	2. Barbed Wire
+	3. Bunker (grey square)
+	4. Laser (Red and Blue)
+
+
+
+Make Start screen:
+	1. Mars background
+	2. Title: Reclaim this Planet!
+	3. Instruction bottom center saying 'Press [space] to ATTACK!'
+	4. Audio: Marching sounds.
+
+	Psuedocode:
+	1. When start:
+		1.1. Show `startMenu` sprite.
+		1.2. Stop all sounds 
+		1.3. Start `Marching` sound
+		1.4. It waits infinitely for the user to press [space]
+			Indefinite polling is fine here since to other processes need it's thread.
+		1.5. On sense 'space,' hide the start screen
+		
+	2. At this point it shows the `Battlefield outline`
+		1. Generate Rands for X number of soldiers, Y for success, A for bunker 1 intervals (keeps changing) and B for bunker 2 intervals.
+		2. Cooldown variable. 3 seconds.
+		3. General Crest is big on the screen with a text bubble that tells you: 
+			Objective: SIMPLE, you have X number of soldiers, get Y to the other side. // [Space] to continue
+			How to play: SIMPLE, when your skill is available you can 'Inspire' a chosen soldier to RUN FASTER by touching them once with your mouse. The cool down of your skill will be shown at the bottom. // [Space] to ADVANCE!
+		* Note, if using `sensing` for the same key press/action, delay the subsequent ones since even if the sprite is hidden it is still sensing it.
+		
+	3. Game time ** here
+		1. Send X number of troops across the screen. Rand number from 1 to 3.
+			1.1. Handle last batch if rand > troops left.
+		2. Create variable for score, troop speed, laser speed.
+		3. When troop touches other side sprite, score goes up and if score >= Y (troop goal) then general pops up with a confetti hat and says he's proud of you.
+		4. Select coordinates the lasers are shot to (with the normal speed of the soldier, calc the lead coordinates)  and send them as per their interval.
+			To make it more fair, rand 1 to 3, if 1 then can target in front of them, else only can shoot below centerl line.
+		5. Test that the lasers shot are touching their targets.
+		6. Add in when touch their targets or any sprite troop, troop costume change -> wait 1 second -> disapear.
+		7. Inspire power. Touch troop -> costume change -> run faster -> cooldown starts at max counting to 0.
+
+		Stats to show on screen (all bottom?):
+			Troops left
+			Score
+			Goal
+			Cooldown
+
+		*Notes:
+			I have got one troop to go the other side and score +1. Now add to the polling loop that if troop touches our mouse, it costume changes to die, play death sound.
+			After all troops sent, wait until there are no more troops on the field, then determine if successful or not.
+			Laser is an estimate of lead, no hard math for intercept point of laser and soldier.
+			Laser sound when fired, when touch troop, it disapears. 
+			Now have it possible to have all 3 sprites on the field. 
+				Changed so that troop 1 is randomized in upper half, troop 2 is semi center, and troop 3 is randomized in lower half. 
+					Sprite 2 and 3 need their own variables for speed and x an y position.
+				Add targeting of the new 2 sprites in bunker 2 red laser. Priority 1, 2, then 3.
+				Run it till the end to see if it crashes any where. Can change ToWin Score to /1 so it doesn't end early.
+				After getting all 3 sprites working, duplicate bunker 2 red laser, adjust the target priority and angle calc and make it have no wait time when firing.
+				
+				
+			States for troop:
+				0: Ready to deloy.
+				1: On field and can be hit
+				2: Going through death script
+				3: Going through enter trench script			
+
+
+
+Final `=====`
+
+0. Write pseudo code in plain language to break down the problem to contribute to the greater algorithm/solution.
+1. Create abstractions (interfaces) to hide implementation and people can call those functions without needing to know the implementation.
+2. Minimize `smelly` code, don't rewrite same code but create functions for re-use or use loops.
+	Use variables for hard coded values, so that there is no need to change in multiple areas.
+3. For Flow control, always have a default branch. Else / Default
+4. Always set a starting value so when the program starts it has an initialized value.
+5. Polling is important to `listen` to events from user or other inputs.
+	Interrupts are also used, so that your system does not use a thread relegated to poll.
+6. Save states of components so that other components can use this information for their own behaviour. 
+
+
+Input -> Black box (algorithm) -> output
+Arguments -> function -> side effect/return value
+`hello world` -> 'say'algorithm -> displayed
+
+Chaining them together where the output becomes the input to another Black box.
+

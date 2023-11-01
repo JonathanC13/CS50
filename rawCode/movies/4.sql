@@ -1,0 +1,1 @@
+select count(a.title) from movies a JOIN ratings b on b.movie_id = a.id where rating = 10.0;

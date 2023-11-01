@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block AddBd %}
+    <form action="/" method="post">
+        <input name="name" type="text" autocomplete="off" autofocus placeholder="Name">
+        <input name="month" type="number" min="1" max="12" autocomplete="off" placeholder="Month">
+        <input name="day" type="number" min="1" max="31" autocomplete="off" placeholder="Day">
+        <button type="submit">Add Birthday</button>
+    </form>
+{% endblock %}
+
+
+{% block birthdays %}
+    {% for birthday in birthdayInfo %}
+        <tr>
+            <td>{{ birthday.name }}</td>
+            <td>{{ birthday.month }}/{{ birthday.day }}</td>
+            <td>
+                <form action="/startEdit" method="post">
+                    <input name="id" type="hidden" value="{{ birthday.id }}">
+                    <button type="submit">Edit</button>
+                </form>
+
+                <form action="/delete" method="post">
+                    <input name="id" type="hidden" value="{{ birthday.id }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+            </form>
+        </tr>
+    {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,128 @@
+<!--http-server-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            function deselectQ1OtherBtns(clicked)
+            {
+                const myElement = document.getElementById("q1AnsBtns");
+                for (const child of myElement.children) {
+                    if (clicked != child)
+                    {
+                        child.style.background='#d9edff';
+                    }
+                }
+            }
+
+            // TODO: Add code to check answers to questions
+            /* method 1 for adding events for the answer buttons of Q1
+            document.addEventListener('DOMContentLoaded', function (){
+                const arrCorrectAns = "John Wick";
+                let msg = document.querySelector("#correctnessMsgQ1");
+                const myElement = document.getElementById("q1AnsBtns"); //.children;
+                //console.log(myElement[1].textContent || myElement[1].innerText);
+                for (const child of myElement.children) {
+                    //console.log(child.textContent || child.innerText);
+                    child.addEventListener('click', function(event) {
+                        if (arrCorrectAns.localeCompare(child.innerText) == 0)
+                        {
+                            deselectQ1OtherBtns(child);
+                            child.style.background='green';
+                            msg.innerText = "Correct!"
+                        }
+                        else
+                        {
+                            deselectQ1OtherBtns(child);
+                            child.style.background='red';
+                            msg.innerText = "Incorrect!"
+                        }
+                        event.preventDefault(); // same as return false in inline ref to **1
+                    });
+                }
+            });
+            */
+           // method 2, use document.querySelectorAll
+           document.addEventListener('DOMContentLoaded', function (){
+                const arrCorrectAns = "John Wick";
+                let msg = document.querySelector("#correctnessMsgQ1");
+                const listQ1Btns = document.querySelectorAll("#q1Ans");
+                for (const child of listQ1Btns) {
+                    //console.log(child.textContent || child.innerText);
+                    child.addEventListener('click', function(event) {
+                        if (arrCorrectAns.localeCompare(child.innerText) == 0)
+                        {
+                            deselectQ1OtherBtns(child);
+                            child.style.background='green';
+                            msg.innerText = "Correct!"
+                        }
+                        else
+                        {
+                            deselectQ1OtherBtns(child);
+                            child.style.background='red';
+                            msg.innerText = "Incorrect!"
+                        }
+                        event.preventDefault(); // same as return false in inline ref to **1
+                    });
+                }
+            });
+
+
+            document.addEventListener('DOMContentLoaded', function (){
+                const arrCorrectAns = "Ottawa";
+                let msg = document.querySelector("#correctnessMsgQ2");
+                let inputAnsText = document.querySelector("#inputQ2");
+                let btnQ2Submit = document.querySelector("#btnQ2Submit");
+
+                btnQ2Submit.addEventListener('click', function(event) {
+                    if ((arrCorrectAns.toLowerCase()).localeCompare(inputAnsText.value.toLowerCase()) == 0)
+                    {
+                        inputAnsText.style.background='green';
+                        msg.innerText = "Correct!"
+                    }
+                    else
+                    {
+                        inputAnsText.style.background='red';
+                        msg.innerText = "Incorrect!"
+                    }
+                    event.preventDefault(); // same as return false in inline ref to **1
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3>Which movie does Keanu Reeves star in?</h3>   <!-- question text-->
+                <span id="q1AnsBtns">
+                    <button id="q1Ans" type="button">Jack Reacher</button>
+                    <button id="q1Ans" type="button">John Wick</button>
+                    <button id="q1Ans" type="button">Jack Ryan</button>
+                </span>
+                <p id="correctnessMsgQ1"></p> <!--placeholder for Correct!/Incorrect! message.-->
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>What is Canada's captiol city?</h3>
+                <input id="inputQ2" type="text" placeholder="Answer here!">
+                <button id="btnQ2Submit">Check Answer</button>
+                <p id="correctnessMsgQ2"></p>
+            </div>
+        </div>
+    </body>
+</html>

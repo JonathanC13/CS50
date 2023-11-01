@@ -1,0 +1,77 @@
+##** Computational thinking / critical thinking for problem solving.
+# Abstraction: breaking down big problems to smaller problems and selecting data structures and algorithms to solve problems.
+
+##** Precision and Abstraction
+Start with abstraction and then refine the solution.
+
+##** Tools
+
+1. Install a command prompt if not included with the OS.
+
+2. Use Git.
+    https://youtu.be/MJUJ4wbFm_A
+    1. Version control
+    2. There is the remote and local reopositories, where the local one is downloaded to your device. You will need to pull
+        to synchronize with other collaborators and push your own changes.
+    3. Branch from a node and then you can merge it back with the original.
+    4. Rever to older verions of code.
+
+    ##** git clone
+    # makes a copy of the remote repo to your local repo. 
+    # You can also "fork" someone elses remote repo which creates a copy for yourself.
+
+
+    ##** git add <filename>
+    # Adds the file to the "staging area," when commit is executed these files will be included in the new version.
+    # git add *   -- will add all changed files.
+
+
+
+3. Use an IDE, like VS code.
+
+4. Host a website.
+    4.1. Static
+        1. pages.github.com
+        2. netlify.com
+    
+    4.2. Full fledge.
+        1. amazon.com/education/awseducate
+        2. azure.microsoft.com/en-us/free/students
+        3. cloud.google.com/edu/students
+        4. education.github.com/pack
+
+5. Help resources.
+    1. reddit.com/r/learnprogramming
+    2. r/programming
+    3. stackoverflow.com
+    4. serverfault.com
+    5. techcrunch.com
+    6. news.ycombinator.com
+
+
+##** Emoji
+Controlled by Unicode which has companies that have voting rights.
+
+Unify characters (inlcuding emojis) into standard codes so all devices can use them.
+Since each character has an unique binary representation and it correlates with what character on your device.
+On each device with a OS, the character may not be exactly the same but close enough.
+
+An innovation is Zero Width Joiner, ZWJ, to combine emojis so that the device's OS can take the original emoji and then 
+    apply the modifications to it and then display. This is better than creating a unique binary code for a entirely new
+    emoji. 
+
+    E.g. A brown hand emoji. On the sender phone they see the same emoji with different skin color and they can choose
+    which one to send. When sent, the emoji is ZWJ with multiple parts, say that this one is the default hand emoji, which is
+    yellow, and "plus" the color brown. Once received it recognized this is ZWJ and combines the parts and displays it.
+
+    So, now you just have 1 hand emoji and say 10 colors, instead of having to assign 10 hand emojis to 10 different codes.
+    
+    Another example is the "polar bear" emoji and actually just "default bear emoji" "plus" "snow emoji" behind the scenes.
+
+
+Check these out:
+https://cs50.harvard.edu/x/2023/seminars/
+
+
+Todo:
+https://cs50.harvard.edu/x/2023/project/

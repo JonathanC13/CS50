@@ -1,0 +1,1 @@
+select distinct(a.name) from people a join directors b on b.person_id = a.id join movies c on c.id = b.movie_id join ratings d on d.movie_id = c.id where d.rating >= 9.0 order by a.name asc;

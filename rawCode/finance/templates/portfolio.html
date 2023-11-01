@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfoloio
+{% endblock %}
+
+{% block main %}
+    <table>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        {% for stock in stocks %}
+        <tr>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.name }}</td>
+            <td>{{ stock.shares }}</td>
+            <td>{{ stock.price | usd }}</td>
+            <td>{{ stock.total | usd }}</td>
+            <td>
+                <form action="/transact" method="post">
+                    <input name="symbol" type="hidden" value="{{ stock.symbol }}">
+                    <input class="form-control mx-auto w-auto" size=10 autocomplete="off" id="shares" name="shares" placeholder="shares" type="text">
+                    <button class="btn btn-primary" type="submit" name="transact" value="BUY">BUY</button>
+                    <button class="btn btn-primary" type="submit" name="transact" value="SELL">SELL</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Cash</th>
+            <td>{{ cash | usd }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>TOTAL</th>
+            <td>{{ total |usd }}</td>
+        </tr>
+    </table>
+
+    <form action="/addCash" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" autocomplete="off" id="addCash" name="addCash" placeholder="Add cash" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Add cash</button>
+    </form>
+{% endblock %}

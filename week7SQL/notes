@@ -1,0 +1,277 @@
+##** flat-file databases
+# e.g. csv (comma seperated values)
+
+// Can use python to manipulate the csv file
+
+// using csv file favorite.csv with fieldnames time, language, problem
+
+import csv
+
+
+
+with open("favorites.csv", "r") as file:
+	reader = csv.reader(file)	// Return a reader object which will iterate over lines in the given csvfile	
+	next(reader)	//  can skip a row
+	for row in reader:
+		favorite = row[1]	// using values to access columns, must know the value of the column
+
+		print(row[1])	
+
+	reader = csv.DictReader(file)	// DictReader obj where each line is a dictionary [{"time": 10, "language":"C", "problem":"runoff"},....] where
+					// you can specify the fieldnames or default it takes it from the first row
+
+	dict_language_count = {}
+	for row in reader:
+		favorite = row["language"]
+
+		if favorite in dict_language_count:
+			dict_language_count[favorite] += 1 
+		else:
+			dict_language_count.update({favorite:1})	// or dict_language_count[favorite] = 1
+
+def get_value(language):
+	return dict_language_count[language] 
+
+
+for favorite in sorted(dict_language_count, key = lambda language: dict_language_count[language]): // lambda funct is given the key and exec the lambda to ret val
+	print(f"{favorite}: {dict_language_count[favorite]}"
+
+
+favorite = input("Favorite: ")
+if favorite in dict_language_count:
+	print(f"{dict_language_count[favorite]}")
+
+
+##** Relational Databases
+# Databases that contains tables and have keys that can be used to link to other tables
+# Uses SQL. Structured Query Language
+# CRUD data
+	Create	- create, insert
+	Read	- select
+	Update	- update
+	Delete	- delete, drop
+
+# create
+	CREATE Table (
+		lngRecID decimal NOT NULL PRIMARY KEY,
+		strA varchar(100)
+	)
+
+	// using terminal: sqlite3
+	$ sqlite3 favorites.db	// creates or selects a database named favorites
+	sqlite>			// within the sqlite terminal to access the databases
+	sqlite> .mode csv	// sets the mode to csv
+	sqlite> .import favorites.csv favorites		// import the csv file to the new table "favorites"
+	sqlite> .schema		// see the design of the db
+
+// INSERT
+	INSERT INTO table (col1, col2,...) VALUES (col1Val, col2Val,...), () 
+
+	> INSERT INTO favorites (language, problem VALUES ('SQL', 'Fiftyville');
+# Read
+// SELECT
+
+	SELCTS columns,.. FROM table		// returns a result set (temp table)
+
+	sqlite> SELECT * FROM favorites;	// get all the columns and values from table favorites
+	sqlite> SELECT language FROM favorites;
+	sqlite> SELECT count(*) FROM favorites;
+	sqlite> SELECT distinct(language) FROM favorites;
+	sqlite> SELECT language, count(language) as 'total' FROM favorites GROUP BY language
+
+	// 
+	WHERE
+	LIKE
+	ORDER BY
+	LIMIT
+	GROUP BY
+
+	> SELECT count(*) FROM favorites WHERE language = 'C';
+	> SELECT count(*) FROM favorites WHERE language = 'C' AND problem = 'Mario'
+	sqlite> SELECT language, count(language) as 'total' FROM favorites GROUP BY language ORDER BY count(language) desc LIMIT 1;
+
+# update
+// UPDATE
+	UPDATE table SET col = newVal WHERE conditon;
+
+	> UPDATE favorites SET language = 'C++' WHERE language = 'C'
+
+# DELETE
+// DELETE	for rows
+
+	> DELETE FROM favorites WHERE program = 'Tidemen'
+
+// DROP		for tables
+	DROP table
+
+
+##** Schemas
+// e.g. IMDb database
+ERD (entity relational diagram) to represent the tables and relations between them like cardinality, ordinality, and participation.
+	Cardinality refers to the maximum number of times an instance in one entity can relate to instances of another entity. 
+	Ordinality, on the other hand, is the minimum number of times an instance in one entity can be associated with an instance in the related entity.
+	Participation, mandatory or optional. o for optional. | for mandatory
+
+	// read ERD relationship crow foot ex
+	A one-to-many relationship occurs when one instance of an entity can interact with multiple instances of another entity. 
+	For instance, one customer can hire several vehicles, while each vehicle can only be assigned to one customer at a time.
+
+	In the IE notation, a one-to-many relationship is represented by a single line at the end of the single instance, 
+	and a three-pronged crow’s-foot symbol facing the multiple instance rectangle.
+
+	[customer] -|--------|<- [vehicles]
+
+> .schema
+CREATE TABLE genres (
+	show_id INTEGER NOT NULL,
+	genre TEXT NOT NULL,
+	PRIMARY KEY(show_id),
+	FOREIGN KEY(show_id) REFERENCES shows(id)
+);
+
+CREATE TABLE shows (
+	id INTEGER NOT NULL,
+	title TEXT NOT NULL,
+	...,
+	PRIMARY KEY(id)
+)
+
+// relational databases are implemented when it is at least 3rd normal form. 
+	The non-key attributes should be independent, no redundancy, and no transitive dependencies.
+
+
+// sqlite datatypes
+	BLOB	// binary large object
+	INTEGER	// int
+	NUMERIC	// like date
+	REAL	// float
+	TEXT	// string
+
+##** constraints
+// constraints when setting the attribute of a column
+	NOT NULL	// no NULL value
+	UNIQUE		// will not allow insertion/update if already exists
+
+
+##** Primary keys, Foreign Keys, Relationships
+// Primary key: Value in the column to uniquely identify the row.
+
+// Foreign Key: Unique and used to link a relationship to another table.
+
+> .schema	// follow the foreign key relations
+
+
+// linking tables in SELECT
+	SELECT * 
+	FROM genres a
+		INNER JOIN shows b ON b.id = a.show_id
+	WHERE a.genre = 'Comedy'
+	LIMIT 10;
+
+	// INNER join is expensive, use WHERE when you can
+	SELECT *
+	FROM shows a
+	WHERE a.show_id IN (SELECT id FROM genres WHERE genre = 'Comedy')
+
+
+	// Nesting
+	SELECT *
+	FROM shows a
+	WHERE a.id IN 
+		(SELECT aa.show_id 
+		FROM shows aa 
+		WHERE aa.persion_id IN 
+			(SELECT aaa.id
+			FROM people aaa
+			WHERE aaa.name = 'Steve Carell')
+
+	OR
+
+	// Explicit joins
+	SELECT *
+	FROM shows a
+		INNER JOIN stars b ON b.show_id = a.id
+		INNER JOIN people c ON c.id = b.person_id
+	WHERE c.name = 'Steve Carell'
+
+	OR
+	// Implicit joins. In some platforms
+	SELECT title 
+	FROM people, stars, shows
+	WHERE people.id = stars.person_id
+		AND stars.show_id = show.id
+		AND people.name = 'Steve Carell'
+
+
+// LIKE
+	WHERE LIKE 'Steve C%';
+
+
+##** Indexes
+// To Hash a column so it is searched faster. Usually index the columns that will be searched frequently.
+//	If you indexed everything, it will require more memory.
+
+	CREATE INDEX name ON table (collumn...);
+
+	CREATE INDEX title_index ON shows (title);	// B-Tree as the indexing data structure to improve searching
+
+
+##** Python and SQL
+// cs50 lib
+from cs50 import SQL
+
+// doc @: cs50.readthedocs.io/libraries/cs50/python/#cs50.SQL
+
+db = SQL("sqlite:///favorite.db")	// open this db
+
+favorite = input("Favorite: ")
+
+rows = db.execute("SELECT count(*) as n FROM favorites WHERE problem = ?;", favorite)	// SELECT returns a list of dict [{"a":1, "b":2},{}]
+										// use placeholder '?' to prevent SQL injection
+
+// row = row[0]	// first row
+
+for row in rows:
+	print(row["n"])	// like row[0]["n"]
+
+
+##** Race conditions
+// A race condition or race hazard is the condition of an electronics, software, or other system where the system's substantive behavior is dependent 
+	on the sequence or timing of other uncontrollable events. It becomes a bug when one or more of the possible behaviors is undesirable.
+
+// Order of operations is important to maintain data integrity.
+
+// Transaction commands
+BEGIN TRANSACTION
+COMMIT
+ROLLBACK
+
+// start the transaction and then only commit once all the commands were executed without interruption or not at all. Atomic transaction
+db.execute("BEGIN TRANSACTION")
+rows = db.execute("SELECT likes from posts WHERE id = ?", id)
+likes = rows[0]["likes"]
+db.execute("UPDATE posts SET likes = ? WHERE id = ?", likes + 1, id)
+db.execute("COMMIT")
+
+
+##** SQL injection attack
+// Injecting a SQL command into a hardcoded SQL command.
+// Use a library that handles SQL that has placeholders, they will most likely sanatize/escape 'dangerous' characters so that your query cannot be injected.
+
+// eg of not using placeholders that is suseptible to SQL injection
+
+rows = db.execute(f"SELECT * FROM users WHERE username = '{username} AND password = '{password}'")
+
+if rows:		// if returns a row, it must mean that a user and pass match in the same row.
+	...
+
+# Imagine that the input for username is: mal@harvard'--
+# which causes the sql statement to be filled as
+SELECT * FROM users WHERE username = 'mal@harvard'--' AND password = '{password}'	// the injected ' will complete the string and then the -- will comment 
+											// ...the rest of the query. If the username alone exists, this will return a 
+											// ...row which consequently  statisfies the 'if rows:' and the 
+											// ...program continues.
+if rows:	// would satisfy if the user exists alone.
+	...
+
+// --

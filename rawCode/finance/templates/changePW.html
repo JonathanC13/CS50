@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change Password
+{% endblock %}
+
+{% block main %}
+    <form action="/changePW" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" autocomplete="off" id="password_old" name="password_old" placeholder="Old password" type="password">
+        </div>
+
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" autocomplete="off" id="password_new" name="password_new" placeholder="New Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" autocomplete="off" id="password_confirm" name="confirmation_new" placeholder="Confirmation new password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Change Password</button>
+    </form>
+{% endblock %}

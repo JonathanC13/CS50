@@ -1,0 +1,422 @@
+##** Flask
+# framework
+https://www.example.com/route?key=value&key=value
+
+
+$ flask run     // to run a web server that is based on python
+
+// require at top level
+1. app.py
+2. requirements.txt // libraries it uses
+3. static/          // for static items like images, js, css
+4. templates/       // for html templates
+
+
+ex 1.
+-- index.html
+within templates/ create an index.html as the landing page.
+
+...
+
+<body>
+    Hello, {{ placeholder }}       // format string placeholder, jinja syntax
+</body>
+
+...
+
+--/ index.html
+
+-- app.py
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+
+@app.route("/")         // starting page
+def index():
+    # return "hello, world!"
+
+    # ?name=David
+    if "name" in request.args:
+        name = request.args["name"]     # get the key value pairs in the URL
+    else:
+        name = "world"
+
+    # instead of if/else, use builtin function get()
+    # will handle if 1st param key not exist in the URL by returning None or explicit default value in the 2nd param
+    name = request.args.get("name", "world")
+
+    return render_template("index.html", placeholder=name)        # within templates/
+
+--/ app.py
+
+##** Forms
+ex 2.
+-- index.html
+// with a form
+
+...
+
+<form action="/greet" method="get">     // when button is clicked, the form info with be GET and action /greet called.
+    <input name="name" type="text" autocomplete="off" autofocus placeholder="Name">
+    <button type="submit">Greet</button>
+</form>
+
+...
+
+--/ index.html
+
+
+-- greet.html
+
+...
+
+<body>
+    Hello, {{ name }}       // format string placeholder, jinja syntax
+</body>
+
+...
+
+--/ greet.html
+
+
+-- app.py
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", placeholder=name)        # within templates/
+
+
+@app.route("/greet")        # action="/greet" for the form when the button with type="submit" is clicked
+def greet():
+    return render_template("greet.html", name=request.args.get("name", "world"))
+
+
+--/ app.py
+
+
+##** Templates
+# Flask allows you to create layouts that can be dynamicly changed with jinja syntax
+
+-- layout.html
+
+...
+
+<body>
+    {% block body %}{% endblock %}      // body is the variable with data (html) to be injected.
+</body>
+
+...
+
+--/ layout.html
+
+-- index.html
+// can now just be the main component that will be injected into layout.html
+
+{%extends "layout.html" %}
+
+{% block body %}
+
+    <form action="/greet" method="get">     // when button is clicked, the form info with be GET and action /greet called.
+        <input name="name" type="text" autocomplete="off" autofocus placeholder="Name">
+        <button type="submit">Greet</button>
+    </form>
+
+{% endblock %}
+
+--/ index.html
+
+-- greet.html
+
+{%extends "layout.html" %}
+
+{% block body %}
+
+    Hello, {{ name }} 
+
+{% endblock %}
+
+--/ greet.html
+
+-- app.py
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", placeholder=name)        
+
+
+@app.route("/greet")       
+def greet():
+    return render_template("greet.html", name=request.args.get("name", "world"))
+
+
+--/ app.py
+
+
+##** Request methods
+# POST. Use this method for sensative information and large sized information. OR making changes to the server or databases.
+#   This will not put the info into the URL for better security.
+
+<form action="/greet" method="post">  // also tweak app.py to handle post method.
+
+-- app.py
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", placeholder=name)        
+
+
+@app.route("/greet", methods=["POST"])          // default is "get"       
+def greet():
+    return render_template("greet.html", name=request.form("name", "world"))   // 'request.form.get' for POST method
+
+
+--/ app.py
+
+**TIP: F12. Within 'Network' tab and under payload you can see the infomation being passed from browser (html) to server (app.py)
+
+
+--** refactoring to reduce number of 'routes'
+
+-- layout.html
+
+...
+
+<body>
+    {% block body %}{% endblock %}      // body is the variable with data (html) to be injected.
+</body>
+
+...
+
+--/ layout.html
+
+-- index.html
+// can now just be the main component that will be injected into layout.html
+
+{%extends "layout.html" %}
+
+{% block body %}
+
+    <form action="/" method="get">     // action changed from '/greet' to '/'
+        <input name="name" type="text" autocomplete="off" autofocus placeholder="Name">
+        <button type="submit">Greet</button>
+    </form>
+
+{% endblock %}
+
+--/ index.html
+
+-- greet.html
+
+{%extends "layout.html" %}
+
+{% block body %}
+
+    Hello, {{ name }} 
+
+{% endblock %}
+
+--/ greet.html
+
+-- app.py
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+
+@app.route("/", method=["GET", "POST"])
+def index():
+    if request.method == "GET":
+        return render_template("index.html", placeholder=name)          
+    elif request.method == "POST":
+        return render_template("greet.html", name=request.form.get("name", "world"))   // 'request.form.get' for POST method
+
+--/ app.py
+
+
+##** Frosh IMs (intramural sports)
+
+-- app.py
+
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+SPORTS = ["Basketball", "Soccer", "Ultimate Frisbee"]       // *1. Keep the valid options here or in a db to validate
+                                                            //      it is a valid option.
+
+REGISTRANTS = {}    // key:name, value:sport                // eventually save into the db for persistent storage instead of here
+                                                            // if left here, once the server turns off the data is lost.
+
+@app.route("/")
+def index():
+    return render_template("index.html", sports=SPORTS)     // *1
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    name = request.form.get("name")
+    sport = request.form.get("sport")
+
+    if sport in SPORTS and name.strip():            // exists in our valid sports and name is not empty
+        REGISTRANTS[name] = sport
+        return render_template("success.html")
+    else:
+        return render_template("failure.html")
+
+
+@app.route("/registrants")
+def registrants():
+    strRegs = ""
+    for key, val in registrants.item():
+        strRegs = strRegs + key + ", " + val + "<br>"
+
+    return render_template("registrants.html", registrants=REGISTRANTS) // don't need to loop, just pass in the dictionary.
+
+
+--/ app.py
+
+-- layoyt.html
+//in templates/
+
+...
+
+<body>
+    {% block body %}{% endblock %}
+</body>
+
+... 
+
+--/ layout.html
+
+-- index.html
+//in templates/
+
+{%extends "layout.html" %}
+
+{% block body %}
+
+    <form action="\register" method="post">
+        <input name="name" autocomplete="off" autofocus input="text" placeholder="Name">
+        <select name="sport">
+            <option disabled selected>Sport</option>    // default option but not selectable.
+            {% for sport in sports %}
+                <option value="{{ sport }}">{{ sport }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Register</button>
+    </form>
+
+{% endblock %}
+
+--/ index.html
+
+-- success.html
+//in templates/
+
+{%extends "layout.html" %}
+
+{% block body %}
+
+   Hurray, you are registered!
+
+{% endblock %}
+
+--/ success.html
+
+-- registrants.html
+//in templates/
+
+{%extends "layout.html" %}
+
+{% block body %}
+    // display the contents of the passed dictionary
+    <ul>
+        {% for name in registrants %}
+            <li>{{ name }} is registered for {{ registrants[name] }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+--/ registrants.html
+
+-- failure.html
+//in templates/
+
+{%extends "layout.html" %}
+
+{% block body %}
+    
+    You are not registered!
+    
+{% endblock %}
+
+--/ failure.html
+
+
+***** Client side validation through attributes and JS can be circumvented by modifying their copy of the HTML. It is nice
+    as a first layer of protection and user friendly. E.x. This field is 'required' but this can be removed through HTML mod.
+***** Best to atleast do server side validation for submissions.
+***** Do client side as an icing on the cake.
+
+
+##** SQLite and Python
+*See source code in ./froshims4
+- Save data in a database to have persistent data.
+
+Difference between render_template and redirect:
+    return redirect(url_for('index', var=var))
+    return render_template('index.html', var=var)
+
+    https://stackoverflow.com/questions/21668481/difference-between-render-template-and-redirect#:~:text=5%20Answers&text=redirect%20returns%20a%20302%20header,the%20content%20at%20that%20URL.
+    redirect returns a 302 header to the browser, with its Location header as the URL for the index function. 
+    render_template returns a 200, with the index.html template returned as the content at that URL.
+
+    One URL endpoint can have many different render_template statements and thus render different page templates from your 
+    templates folder. On the other hand, using a redirect changes the URL itself and thus calls the methods associated to 
+    that route.
+
+
+##** Cookies and Sessions
+Cookies and sessions are used by websites to store users' data across different pages of the site. 
+The key difference between sessions and cookies is that sessions are saved on the server side while cookies are saved on 
+the client side. Cookies are small text files used to store user information on the user's computer and every time the user
+performs an action onto the server the cookie is presented to validate the user.
+
+* source code in ./src9/login
+
+
+##** Shopping cart
+* source code in ./src9/store
+
+
+##** API: Application Programming Interfaces
+Function APIs in program language libraries
+Service APIs where you interface with their functions to get back data from that service. E.x. a weather API and you call 
+    their APIs to get weather info.
+
+* source code in ./src9/showsX
+
+Usually web API return JSON which is structured but in plain text so that the requester can do what they will with it.
+
+
+##** AJAX
+Dynamically load specific sections of a page without a window reload.

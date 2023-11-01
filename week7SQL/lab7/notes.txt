@@ -1,0 +1,23 @@
+CREATE TABLE songs (
+    id INTEGER,
+    name TEXT,
+    artist_id INTEGER,
+    danceability REAL,
+    energy REAL,
+    key INTEGER,
+    loudness REAL,
+    speechiness REAL,
+    valence REAL,
+    tempo REAL,
+    duration_ms INTEGER
+);
+CREATE TABLE artists (
+    id INTEGER,
+    name TEXT
+);
+
+As well as running your queries in sqlite3, you can test your queries in the VS Code terminal by running
+
+$ cat filename.sql | sqlite3 songs.db
+
+where filename.sql is the file containing your SQL query.

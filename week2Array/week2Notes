@@ -1,0 +1,162 @@
+
+
+* compile:
+        gcc -o hello hello.c cs50.h
+
+        clang -o hello hello.c -lcs50   # linking cs50.h
+
+        # including cs50.h header file when compiling. Can be in different directory, just specify it like: includes/cs50.h.    # in the current dir, in folder
+        #       `includes`
+        # Didn't need to include stdio.h in the compiling due to being built-in to C already.
+
+
+
+        * The output exec will be `hello`
+        * Remember to compile the header files with your program
+
+
+
+===== Compiling steps =====
+* Preprocessing
+	#include<cs50.h>
+	#include<stdio.h>
+	
+	Will get the entire library in the `header` files and `paste` it into your program so that their functions are defined and can be used.
+
+* Compiling
+	Converts the programing language's code to `assembly code` which the computer can interpret and operate with values and modify memory.
+
+* Assembling
+	Converts the assembly code to `machine code` which is represented in binary.
+
+* Linking
+	In this step, your program and the header files are have been compiled and assebmled. When linking, it will link all the files together.
+	e.x. hello.c <-> cs50.c <-> stdio.c
+
+===== /Compiling steps =====
+
+===== Decompiling =====
+
+Get the source code from the compiled executable.
+But some items like names, type of loop, and etc. are not converted back to the original code. This is due to the compiler does not need to save the specifics.
+
+===== /Decompiling =====
+
+
+===== Debugging =====
+
+* printf() values
+
+* Use the Debugger
+Break points so that the debugger runs to that first break point, and then you can run the code step by step to check the values within variables.
+Can also run it to the next break point.
+
+cs50
+	$ debug50 ./hello.c
+
+Step into: go into the called function
+Step over: next line
+
+* Re-do all the logic flow.
+
+===== /Debugging =====
+
+===== Data types
+
+bool: 1 byte
+
+int: 4 bytes
+
+long: 8 bytes
+
+float: 4 bytes
+
+double: 8 bytes
+
+char: 1 byte
+
+string: ? bytes, dependent on the assigned value. 
+
+===== /Data types
+
+==== Array ====
+
+Storing values in contiguous memory locations, so that you can access them with arthimetic from the memory location's address of the first index.
+
+int score[3];	// array of 3 ints. (3 x 4 bytes = 12 bytes of memory). No values, just defined.
+
+score[0];	// Accessing index 0 of the array.
+
+float average(int array[])	// Passing array by value.
+{
+
+}
+
+==== /Array
+
+
+==== Strings
+
+A string is just an array of chars (1 byte each).
+The terminating character (extra 1 bytes) for a string is `\0`
+I.e. H I ! \0, where \0 is a NUL character, the Dec value is 0.
+72 73 33 0
+
+#include<string.h>
+
+
+==== /Strings
+
+
+#include<ctype.h>
+	* Helpful functions for testing and mapping characters. E.x. isdigit(int c) // The int can be a char because it will convert to its decimal value.
+
+
+==== Command line arguments
+
+int main(int argc,  string argv[])
+{
+	if (argc == 2)
+	{
+		printf("Hello, %s\n", argv[1];
+		return 0;
+	}
+	else
+	{
+		printf("Please only provide one command-line argument.\n");
+		return 1;
+	}
+}
+
+* The main now takes command line arguments.
+int argc, argument count.
+string argv[], will take all the words included in the command line as arguments.
+	e.g. ./greet David
+		argv[0] = ./greet
+		argv[1] = David
+
+
+
+==== / Command line arguments
+
+==== exit status
+
+A return integer to represent an error.
+
+echo $?	// to see the return value from main
+
+==== / exit status
+
+==== Cryptography
+
+Encrypting information into cypher text, then to decrypt it they would need to know the algorithm and reverse it.
+plain text	-> [cipher (algorithm)] -> cipher text
+key		->	"
+ 
+==== /Cryptography
+
+
+
+* Lab 2 *done
+* Problem set 2	*done
+* Practice problem *done

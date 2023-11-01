@@ -1,0 +1,1 @@
+select DISTINCT(a.name) from people a join stars b on b.person_id = a.id JOIN movies c on c.id = b.movie_id where c.year = 2004 order by a.birth asc;

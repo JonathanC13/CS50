@@ -1,0 +1,1 @@
+select AVG(energy) from songs a join artists b on b.id = a.artist_id where b.name = 'Drake';

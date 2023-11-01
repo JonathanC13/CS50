@@ -1,0 +1,105 @@
+Algorithms
+
+== Running Time ==
+
+** Big O notation
+e.g. 
+        O(n^2)
+        O(n log n)
+        O(n)
+        O(log n)
+        O(1)    # fixed number of steps; i.e. 1, 1000, 6789
+
+* Time complexity: How time efficient is it in the best (Ω), worst, and average (less commonly used as a metric). Evaluate how many iterations over the collection.
+* If worst and best case are the same, you can represent it as: θ(n).
+
+	- log n: think of it like doubled, doubled, doubled.
+
+* Space complexity: How much space does the algorithm use.
+
+
+** Usually, Time and Space trade offs.
+
+== /Running Time ==
+
+
+
+== Searching ==
+
+* linear searching: Iterate the list in one direction checking each element until the desired value is found or the end is reached.
+	Time complexity:
+		Worst case: O(n)	# search the entire array, either the desired value is at the end or not in the list at all.
+		Best case, Ω: Ω(1)	# found in the first element
+		
+
+* Binary search: This works for sorted collections only. This search will go to the middle index of the current segment and checks the value, 
+if the value is greater than the desired value repeat for the left segment by changing the end point (mid - 1) and selecting the new middle index
+and if it is less than the desired value repeat for the right segment by changing the start point (mid + 1) and selecting the new middle index.
+Final end condition is if the start index is greater than the end index, then it indicates that the value does not exist in the list.
+	Time complexity:
+		Worst case: O(log n)	# until last possible element or does not exist.
+		Best case, Ω: Ω(1)	# first element checked
+		
+
+== /Searching ==
+
+
+
+* C structs: for custom data types. Cannot set default values in the struct definition.
+typedef struct
+{
+	string name;
+	string number
+}
+person;
+
+
+
+person people[2];
+
+people[0].name = "Carter"
+people[0].number = "+1-234-567-8900"
+
+
+
+== sorting ==
+
+* Selection sort: Find the lowest* value in the unsorted segment and swapping it to the start* of the unsorted segment, then increment the sorted segment by 1 to 
+include it within the sorted segment. Continue until the whole array is in the sorted segment, meaning that the algorithm evaluated each element to the last elem.
+	(n-1)(n-2)(n-3)...
+	Time
+		Worst case: O(n^2), Needs to build the `sorted segment` until the whole list is within it.
+		Best case: Ω(n^2), due to it still needs to check
+
+* Bubble sort: Compare the current element with its adjacent neighbor, if the current element is greater than its adjacent then swap else do 
+nothing. Use the neighbor as the next current element and repeat in a circular fashion, once getting to the end, start over at the beginning.
+For the algorithm to end, you must keep track of the number of swaps and if the swaps = 0 after a whole iteration of the array it must mean it has been sorted.
+	Time
+		worst case: O(n^2), if the smallest value is at the end, it would take n^2 to swap it to the beginning.
+		Best case: Ω(n), no swaps on the first iteration meaning the list was sorted.
+
+* Mergesort: Recursively divides the list into smaller lists until the base case of size 1, then continue to merge the smaller lists together in a sorted order
+ until the final sorted list. 
+	Time	
+		worst case: O(n log n), repeatedly dividing the segments by 2 and then combining is the nature of log. 
+		best case: Ω(n log n), still need to divide and merge the entire list.
+
+== /sorting ==
+
+
+== recursion ==
+
+* Ability of a function to call itself.
+Make sure that there is at least 1 `base case` for a exit condition so that the final recursion can exit.
+Ensure that each recursive call is working on a smaller subset of the problem.
+The recursive call needs to `pop` off the stack and return before the step that called it can continue.
+
+
+== /recursion ==
+
+
+Take a look at the Short about `recursion` * done
+
+Lab3 * done
+Prob set 3 * here
+Prac prob

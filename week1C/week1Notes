@@ -1,0 +1,244 @@
+https://manual.cs50.io/
+	* Simplified manual for C
+
+We write source code in the programming language.
+Computers only understand machine code, where it is interpreting binary patterns for operations.
+
+source code -> [compliler] -> machine code
+
+3 axis of good code:
+1. Correct behaviour
+	No bugs
+2. Design
+	No repeated code, create functions.
+	Abstraction.
+3. Style
+	Tabs and spacing for human readability.
+
+Online codespace: code.cs50.io
+
+/*
+https://www.freecodecamp.org/news/how-to-write-and-run-c-cpp-code-on-visual-studio-code/#:~:text=Simply%20open%20VS%20Code%2FVS,in%20the%20upper%20right%20corner.
+Setup local VS code for C
+
+1. Download C/C++ compiler
+	sudo apt install gcc g++ clang gdb
+2. VS extension: C/C++
+	By Microsoft.
+2.1. VS extension: C/C++ Themes
+2.2. VS extension: C/C++ Extension Pack
+3. VS extension: Code Runner
+	By Jun Han
+4. File->Preferences->Settings
+	Search settings: Code Runner
+		Click Extension: Code Runner
+			Toggle ON: Code-runner: Run in Terminal (Whether to run code in integrated terminal)
+
+To compile:
+gcc helloWorld.c -o helloWorld
+	* Compiling with gcc
+	* helloWorld.c is the source file
+	* hellowWorld is the output executable file which is in binary.
+
+To run:
+./hellowWorld
+	* Make sure you have the correct directory.
+
+To debug:
+1. Set breakpoints.
+2. Run->Start Debugging (F5)
+2.1. Select your gcc version, in my case: gcc 9 debug
+
+*/
+
+CLI: Command line interface.
+	(Terminal)
+
+$: code hello.c
+	* Creates a new file named `hello` with extension `c,` indicating it is a C program.
+	* Or if it exists, open it.
+
+$: make hello
+	* Compile `hello.c` into output executable `hello`
+
+$: ./hello
+	* In the current directory, runs the `hello` executable.
+
+
+$: clear
+	* clear terminal
+
+Ctrl + C:
+	* force stop the terminal.
+
+/* Basic Linux commands
+ls: List what is in the current directory.
+
+cd [path]: Change directory to [path].
+
+cp [source] [dest]: Copy a file.
+
+mkdir [name]: make a folder.
+
+mv [source1, src2...] [dest dir]: 
+	Move files and directories.
+	Rename files or directories.
+
+rm: remove.
+
+rmdir: remove directory. 
+
+*/
+
+#include
+	* A header file to import a library for functions we can use.
+
+If wanted to printf a `%` sign in the string:
+	printf("100%%") will print `100%`
+
+ 
+Generally 0 means false.
+Any other number means true.
+
+/* Flow control
+If (condition), else if (condition), else
+
+*/
+
+/* LOOPS:
+For (intialize, condition, increment)
+	(int i = 0; i < x; i++)
+
+while (condition)
+
+do{} while (condition)
+	* Useful to get input from somewhere and then check the conditon, if true repeat the do{}.
+*/
+
+
+
+For C, when compiling it reads top to bottom. 
+If the compiler sees a function that has not been defined and used, it will throw an error.
+Define the function signature before the function that uses it.
+	* Usually since you'll want `int main()` to stay at the top of the program file, if main uses some functions implemented below it, place the function signature about main.
+int get_size();
+
+int main(){}
+
+int get_size(){}	 
+
+
+-- Type --
+void:
+	*Functions can have a `void` return type, it means no return value for that function and it is called a `void function`
+	*If `void` is the only parameter for the function signature, it means the function does not take any parameters.
+--/Type
+
+
+-- Data type --
+
+bool
+	true
+	false
+
+string
+	words that are a series of characters.
+
+char
+	1 byte to store a single character.
+	2^8 total
+	2^7 - 1: pos
+	2^7: neg
+
+	Char values maps to the ASCII chart.
+
+Float
+	Real numbers/Decimal values
+	2^32 total.
+	Precision problem if at its limit
+
+Double
+	Real numbers
+	2^64 total.
+	Can also have precision limit.
+
+int
+	2^32: 32 bits
+	2^31 -1: for positive
+	2^31 -1: for negative
+*If you want to use more bits than available, it can cause integer overflow.
+ 
+long
+	2^64
+	2^32
+	2^32
+
+unsigned int:
+	Doubles the positive range with no negative values.
+	2^32 -1 max
+
+*Integer overflow is caused by using more bits than available to represent a number which causes the loss of information and when the bits are interpreted, they represent a different number than what you expected.
+
+*Truncation:
+	Losing information due to assigning one data type to another.
+	e.x. long / long = long, which doesn't support decimal point values so it does not save them.	
+
+* Type casting. Converting one datatype to the desired one, can be just for a single operation.
+
+* Floating-point imprecision:
+	Due to the restrictions of number of bits to represent a decimal number, when printing more decimal places than the data type can represent it approximates the extra decimal places that it could not store.
+	For more precision, can use a data type that has more bits to represent `more precise` decimals, to hold more numbers after the decimal point.
+	Will never be perfect if the data type does not have enough bits to represent a fully precise value.
+
+--/Data type --
+
+printf formats:
+	%c
+	%f
+	%i
+	%li
+	%s
+
+
+int number;	// declaration
+number = 17;	// assignment
+char letter;	// declaration
+letter = 'H';	// assignment
+
+int number = 17;	// Initialization
+char letter = 'H';	// Initialization
+
+*Magic numbers: Hard coded/constant values written in by the programmer that are not stored in a variable.
+	It is consdiered bad practice, always assign the value to a variable to give it a label and can be re-used.
+	It is better, to prevent it being altered, use C's `preprocessor directive` for creating symbolic constants
+		#define NAME REPLACEMENT
+		At the time your program is compiled, it will replace all `NAME` with the `REPLACEMENT`. Essentially, a find and replace.
+		Convension is the have the `NAME` is all capitalized.
+#include
+	* like a copy and paste for the lib.
+
+-- Lab 1 --
+
+Complete
+
+-- /Lab 1 --
+
+-- Problem Set1
+
+mario-more.c
+credit.c
+
+-- /Problem Set1
+
+-- practice problems
+
+half.c
+prime.c
+
+-- /practice problems
+
+
+
+
+For fun, if have time:
+	Create the basic functions in cs50.h library. 

@@ -1,0 +1,115 @@
+https://www.freecodecamp.org/news/harvard-cs50-guide/
+
+Current: https://cs50.harvard.edu/x/2023/
+	https://home.edx.org/
+User: Jonathan_5774
+Pass: TL?9v,c#}h)Xbs7
+
+Online codespace: code.cs50.io
+
+Week0 Scratch: Complete
+Week1 C: Complete
+Week2 Array: Complete
+Week3 Algorithms: Complete
+Week4 Memory: Complete
+Week5 Data Structures: @ problem set
+
+
+
+
+
+General notes:
+0. Write pseudo code in plain language to break down the problem to contribute to the greater algorithm/solution.
+1. Create abstractions (interfaces) to hide implementation and people can call those functions without needing to know the implementation.
+2. Minimize `smelly` code, don't rewrite same code but create functions for re-use or use loops.
+        Use variables for hard coded values, so that there is no need to change in multiple areas.
+3. For Flow control, always have a default branch. Else / Default
+4. Always set a starting value so when the program starts it has an initialized value.
+5. Polling is important to `listen` to events from user or other inputs.
+        Interrupts are also used, so that your system does not use a thread relegated to poll.
+6. Save states of components so that other components can use this information for their own behaviour.
+7. For variables where you do not want the initialized value to change, defend yourself from others or yourself by setting it to static.
+	In C: const x = 5;
+8. 3 axis of good code:
+	1. Correct behaviour        
+		No bugs
+	2. Design
+		No repeated code, create functions.
+		Abstraction.
+	3. Style
+		Tabs and spacing for human readability.
+9. Time and space complexity trade offs. For faster performance you will need to use more memory and vice versa.
+10. Web dev
+	***** Client side validation through attributes and JS can be circumvented by modifying their copy of the HTML. It is nice
+	    as a first layer of protection and user friendly. E.x. This field is 'required' but this can be removed through HTML mod.
+	***** Best to atleast do server side validation for submissions.
+	***** Do client side as an icing on the cake.
+
+
+
+/*
+Update Visual Studio Ubuntu
+
+sudo apt update 
+sudo apt install code
+*/
+
+/*
+https://www.freecodecamp.org/news/how-to-write-and-run-c-cpp-code-on-visual-studio-code/#:~:text=Simply%20open%20VS%20Code%2FVS,in%20the%20upper%20right%20corner.
+Setup local VS code for C
+
+1. Download C/C++ compiler
+        sudo apt install gcc g++ clang gdb
+2. VS extension: C/C++
+        By Microsoft.
+2.1. VS extension: C/C++ Themes
+2.2. VS extension: C/C++ Extension Pack
+3. VS extension: Code Runner
+        By Jun Han
+4. File->Preferences->Settings
+        Search settings: Code Runner
+                Click Extension: Code Runner
+                        Toggle ON: Code-runner: Run in Terminal (Whether to run code in integrated terminal)
+
+To compile:
+gcc helloWorld.c -o helloWorld
+        * Compiling with gcc
+        * helloWorld.c is the source file
+        * hellowWorld is the output executable file which is in binary.
+
+To run:
+./hellowWorld
+        * Make sure you have the correct directory.
+
+To debug:
+1. Set breakpoints.
+2. Run->Start Debugging (F5)
+2.1. Select your gcc version, in my case: gcc 9 debug
+
+*/
+
+===== Compiling steps =====
+* Preprocessing
+        #include<cs50.h>
+        #include<stdio.h>
+
+        Will get the entire library in the `header` files and `paste` it into your program so that their functions are defined and can be used.
+
+* Compiling
+        Converts the programing language's code to `assembly code` which the computer can interpret and operate with values and modify memory.
+
+* Assembling
+        Converts the assembly code to `machine code` which is represented in binary.
+
+* Linking
+        In this step, your program and the header files are have been compiled and assebmled. When linking, it will link all the files together.
+        e.x. hello.c <-> cs50.c <-> stdio.c
+
+===== /Compiling steps =====
+
+===== Decompiling =====
+
+Get the source code from the compiled executable.
+But some items like names, type of loop, and etc. are not converted back to the original code. This is due to the compiler does not need to save the specifics.
+
+===== /Decompiling =====
