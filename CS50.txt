@@ -2,18 +2,8 @@ https://www.freecodecamp.org/news/harvard-cs50-guide/
 
 Current: https://cs50.harvard.edu/x/2023/
 	https://home.edx.org/
-User: Jonathan_5774
-Pass: TL?9v,c#}h)Xbs7
 
 Online codespace: code.cs50.io
-
-Week0 Scratch: Complete
-Week1 C: Complete
-Week2 Array: Complete
-Week3 Algorithms: Complete
-Week4 Memory: Complete
-Week5 Data Structures: @ problem set
-
 
 
 

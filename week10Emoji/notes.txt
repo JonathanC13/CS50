@@ -13,8 +13,8 @@ Start with abstraction and then refine the solution.
     1. Version control
     2. There is the remote and local reopositories, where the local one is downloaded to your device. You will need to pull
         to synchronize with other collaborators and push your own changes.
-    3. Branch from a node and then you can merge it back with the original.
-    4. Rever to older verions of code.
+    3. Branch from a node to test changes and then you can merge it back with the original.
+    4. Revert to older verions of code.
 
     ##** git clone
     # makes a copy of the remote repo to your local repo. 
@@ -26,6 +26,71 @@ Start with abstraction and then refine the solution.
     # git add *   -- will add all changed files.
 
 
+    ##** git commit -m "message"    -- message along with the commit
+    # Saves the changes (in staging area) to the local repo as a new version
+    # git commit -am "message"  -- add and commit in the same step
+
+
+    ##** git status
+    # shows the current status of the local repo and in relation with the remote repo.
+
+
+    ##** git push
+    # sends committed changes to the remote repo.
+    # more explicitly, could write $git push origin master  -- which pushes to this specific branch.
+
+
+    ##** git pull
+    # retrieves the changes from the remote repo for the branch you are currently on.
+
+
+    ##** merge conflicts
+    # When 2 different commits can't be automatically merged, due to like the same lines of code were modified,
+    #   then the conflict must be resolved first before the push/pull is executed.
+
+    e.g. after a pull
+        <<<<< HEAD
+        int a = 2;
+        ======              // above are your changes that are conflicting
+        int a = 3;
+        >>>>> 1234e         // these are the remote changes that are conflicting. The value there is the commit 'id'
+
+        # To solve a conflict, it is simply you modify to choose what the final lines should be. 
+            Then you may add, commit, and then push the changes.
+
+
+    ##** git log
+    # history of all of the commits and its messages.
+
+
+    ##** git reset
+    # git reset --hard <commit>
+        // reverts code back to a previous commit
+    # git reset --hard origin/master
+        // reverts code back to a repo branch. In this case remote master branch.
+
+
+    ##** Branching
+    # A branch is a version of the repo.
+    # Each branch has its own commit history and current version.
+    # git branch
+        # shows all the branches of code.
+        # create a branch with $git branch <branchName>
+        # switch to a branch with $git checkout <branchName>
+        # create and switch to new branch $git branch -b <newBranch>
+        # delete a branch with $git branch -d <branchName>
+
+
+    ##** git merge
+    # git merge <branchName>    // merges the branch with the branch you are currently on.
+
+    
+    ##** Pull requests
+    # where you made changes in a different branch or forked repo and you want to submit this "pull request" to them to 
+        request your changes to be merged with their branch.
+
+
+    
 
 3. Use an IDE, like VS code.
 
