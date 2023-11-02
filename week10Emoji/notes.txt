@@ -36,6 +36,7 @@ Start with abstraction and then refine the solution.
 
 
     ##** git push
+    # git push [remote repository] [flags] [local repository]
     # sends committed changes to the remote repo.
     # more explicitly, could write $git push origin master  -- which pushes to this specific branch.
 
