@@ -1,7 +1,313 @@
+week 4 Memory
+
+
+* Hexadecimal is base-16
+0 1 2 3 4 5 6 7 8 9 A B C D E F
+16^1 	16^0
+16	1
+16x15	1x15
+240	15
+=	255
+
+4 bits per hexadecimal
+
+* Memory locations can be described with hexadecimal since 4 bits per hexadecimal it is more convenient.
+0x0..0x10
+
+	* print the address of a variable in C:
+		int n = 50;
+		printf("%p\n", &n);	// Use & (Reference operator for address of)
+		// output ex. 0x1234
+
+	* modify the value at an address, use the dereference operator '*'
+		int n = 50;
+		int *p = n;
+		*p = 100;	// assigns the value 100 to the memory location pointed to by p, which is where n is stored, this modifies the original value.
+		printf("%i\n", n);
+		// output 100
+
+* pointers
+Is a variable that contains the address of some value.
+int n = 50;
+int *p = &n;	// *p contains the address of n
+printf("%p\n", p);	// address of n
+printf("%i\n", *p);	// value at the address stored in p, dereference p.
+printf("%p\n", &p);	// Can print the address of pointer p
+
+* Reminder of uses of symbol *
+1. Declare a pointer
+	int *p = &n;	// int pointer that has the address of n.
+2. Deference a pointer
+	printf("%i\n", *p);	// Goes to the address that p contains and get the value.
+
+* string
+string s = "HI!";
+in Mem: H I ! \0
+s[0] s[1] s[2] s[3]
+
+'s' is a pointer to the first index of the string, (has the address of the first index).
+
+string is really just char *s
+char *s = "HI!";	// s has the address of the first index.
+
+--
+string s = "HI!";
+printf("%p\n", s);	// address of first index. s = char *
+
+without library that typedef char *string, see below.
+
+char *s = "HI!";
+printf("%p\n", s);	// address of first index
+printf("%s\n", s);	// %s will print the entire 'string' until the \0 (NULL) character. %s requires the address of the first index to print the entire 'string.' Suppling *s will just print the first character.
+printf("%p\n", &s[0]);	// address of the first index
+printf("%p\n", &s[1]);	// address of the second index, notice that array's addresses are contiguous. Memory locations are beside eachother.
+
+* pointer arithmetic.
+char *s = "HI!";
+printf("%c\n", *(s));	// deference, get value in the first index address.
+printf("%c\n", *(s+1));	// adding char byte size (1 byte) to the address of s (the first index address) which will result in the 2nd char.
+printf("%c\n", *(s+2);
+
+
+printf("%s", s);	// will print HI!
+printf("%s", s+1);	// will print I! (string but starting at index 1)
+printf("%s", s+2);	// will print ! (string but starting at index 2)
+
+* Comparing strings
+Can use strcmp, but with pointers you can compare 2 'strings' by comparing each character 1 by 1 in each 'string'
+
+OR manaully.
+
+#include <string.h>
+
+string s = "abc";
+string j = "abc";	// remember different address
+for (int i = 0, len = strlen(s); i < len; i++)
+{
+	if (s[i] != j[i])
+	{
+		return false;
+	}
+}
+return true;
+
+* copying strings
+string s = "hi!";
+string t = s;	// assigns the address of s to t, so both point at the same adrs.
+
+if (strlen(t) > 0)
+{
+	t[0] = toupper(t[0]);
+}
+
+printf("%s\n", s);	// Hi!
+printf("%s\n", t);	// HI!
+// since both are the same address, the change to 't' affected 's.'
+
+--
+
+#include <stdlib.h>
+
+- malloc: Memory allocation, request memory in advance and returns the first byte of the memory address. Up to the user to not use more memory than requested. 
+
+- free: Provide the first memory address and it will free all the memory you previously malloc'd
+
+--
+
+#include <stdlib.h>
+#include <string.h>
+
+char *s = get_string();	// hi!
+
+// if user input is NULL
+if (s == NULL)
+{
+	return 1;
+}
+
+char *t = malloc(strlen(s) + 1);	// request memory to store s + 1 chars, + 1 is for the nul ('\0) terminating char. Now t is a char pointer to free memory.
+
+// if malloc returned NULL because it could not all allocate the requested memory.
+if (t == NULL)
+{
+	return 1;
+}
+
+for (int i = 0, len = strlen(s) + 1; i < len; i++)	// + 1 to save the nul ('\0) char.
+{
+	*(t + i) = s[i];	// both representations are equivalent, they are deferencing the value. Assign value of t + i with s + i.
+
+}
+
+if (strlen(t) > 0)
+{
+	t[0] = toupper(t[0]);
+}
+
+printf("%s\n", s);	// hi!
+printf("%s\n", t);	// HI!
+// due to now the addresses of the strings are different, the modification of 't' does not affect 's.'
+
+free(t);	// free memory you requested after use.
+
+return 0;
+
+OR use string.h lib function strcpy
+
+strcpy(t, s);
+
+* NULL: pointer to memory location that is not ever used, but represents 0 / address of nothing.
+
+* Valgrind: Looks at your code and finds memory related errors.
+-
+int *x = malloc(3 * sizeof(int));	// requesting memory for an array.
+
+if (x == NULL)
+{
+	return 1;
+}
+
+x[0] = 72;
+x[1] = 73;
+x[2] = 33;
+
+free(x);
+
+return 0;
+===
+$ valgrind ./memory
+- will return messages like:
+	Invalid write
+	Invalid read
+	12 bytes in 1 blocks are definitely lost ... // Means memory leak, so there may be a missing 'free.'
+
+* Garbage values: Values in allocated memory addresses that has not been assigned a value yet by your program, so that when you access the addresses you will get whatever was there before.
+
+**To avoid this always initalize variables to at least a inital value or the user input will assign a value to the declared variable or memory location. ** put in overall notes.
+
+// Just allocating, but not assigning. Within the loop will get these 'garbage' values.
+int scores[1024];
+for (int i = 0; i < 1024; i++){
+	printf("%i\n", scores[i]);
+}
+
+* Pointer Fun with Blinky
+
+int main(void)
+{
+	int *x;
+	int *y; // declaring pointers that can store an address of size int.
+
+	x = malloc(sizeof(int)); // request a memory address of size int and assign it to pointer x. malloc(size(int)) can be said to be the pointee.
+
+	*x = 42; // Deference x. At the address of x set the value to 42.
+	//*y = 13; // fails, since not allocated any memory address. No pointee.
+
+	y = x; // assign pointer y to the address of x.
+
+	*y = 13; // At the address pointer y set the value to 13. This will also affect the value pointed by x.
+}
+
+* Swap
+// For swapping 2 values, it requires a 3rd temporary variable.
+
+// For C, arguments are passed by value so you must pass in the pointer, which contains the address, in order to modify the value and observe the change in the desired variable (memory location).
+
+// if swap(int a, int b) and then passed purely ints into swap(x, y); then swap just assigns the values to its own variables and any modifications are not seen to the original variables.
+
+
+void swap(int *a, int *b)
+{
+	int tmp = *a; // Deferencing a for the value
+	*a = *b;
+	*b = tmp;
+}
+
+int main(void)
+{
+	int x = 1;
+	int y = 2;
+
+	printf("x: %i, y: %i", x, y);
+	swap(&x, &y); // Pass in the address.
+	printf("x: %i, y: %i", x, y);
+}
+
+* memory allocation stack
+[	machine code		]
+[	globals			]
+[	heap (grows down)	] // malloc allocate memory here
+[				]
+[				] // If intercept, crash. Either stack grows into the heap with recursion (stack overflow) OR a segmentation fault if heap grows into stack (heap overflow).
+[				]
+[	stack (grows up)	] // functions and variables.
+
+-- Can help avoid a crash/buffer overflow by checking if a malloc successfully allocated your variable memory (on success it will return the first memory address), else do something else.
+
+int *x = malloc(3 * sizeof(int));	// requesting memory for an array.
+
+if (x == NULL)
+{
+	return 1;
+}
+
+
+* scanf
+// get user input in ther terminal.
+
+// basic get_int with no re-prompting
+#include <stdio.h>
+
+int main(void)
+{
+	int x;
+	printf("x: ");
+	
+	scanf("%i", &x); // pass the reference of x so the function can store the value into that memory location.
+
+	printf("x: %i\n", x);
+}
+
+// basic get_string, but hard coded.
+#include <stdio.h>
+
+int main(void)
+{
+
+	char *s = NULL;
+	s = malloc(4 * sizeof(char)); // Need to malloc a size.
+	printf("s: ");
+	
+	scanf("%s", s); // pass the reference of x so the function can store the value into that memory location. No &s since s knows it is already an address
+
+	printf("s: %s\n", s);
+}
+** Correct implementation is to keep checking the user input 1 char at a time and continuously malloc free until you malloc'd enough memory for the user's input string.
+
+* Phonebook
+
+// saves names and numbers to a CSV file.
+
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+	FILE *file = fopen("phonebook.csv", "a"); // "a" means append
+
+	string name = get_string("Name: ");
+	string number = get_string("Number: ");
+
+	fprintf(file, "%s,%s\n", name, number); // writing to the file
+
+	fclose(file); // close stream when finished.
+}
+
 lab4 * done
 Prob set 4
 	- filter less * done
 	- filter more * done
 	- Recover * done
-	- Reverse * here
-Pract prob 
+	- Reverse * done
+Pract prob *done
