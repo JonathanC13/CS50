@@ -1,0 +1,15 @@
+https://cs50.harvard.edu/x/2023/project/
+
+
+-- Ajax like
+
+* From event detect in JS, go back to app.py to process the SQL, and then back to JS modify a template's element without 
+    reload of entire page. GET req
+https://cs50.harvard.edu/x/2023/weeks/9/    src9/shows1
+
+* sr9/shows2 for JSON
+
+* From event detect in JS to app.py to process SQL then back to JS to modify a template's element without reload of entire 
+    page. POST
+https://www.youtube.com/watch?v=-vJufZvS5aU&pp=ygUfbGl2ZSBzZWFyY2ggZmxhc2sgd2l0aCBkYXRhYmFzZQ%3D%3D
+--/ Ajax like

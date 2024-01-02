@@ -138,6 +138,9 @@ An innovation is Zero Width Joiner, ZWJ, to combine emojis so that the device's 
 Check these out:
 https://cs50.harvard.edu/x/2023/seminars/
 
+export API_KEY="abc"
+
+pypi.org for packages
 
 Todo:
 https://cs50.harvard.edu/x/2023/project/
